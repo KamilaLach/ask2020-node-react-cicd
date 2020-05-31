@@ -24,8 +24,30 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
+  build-docker-client:
+    machine: true
+    working_directory: ~/repo/client
+    steps:
+      - checkout:
+          path: ~/repo
+      - run: 'echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin'
+      - run: docker build -t $DOCKER_USER/client:$CIRCLE_BRANCH .
+      - run: docker push $DOCKER_USER/client:$CIRCLE_BRANCH
+  build-docker-server:
+    machine: true
+    working_directory: ~/repo/server
+    steps:
+      - checkout:
+          path: ~/repo
+      - run: 'echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin'
+      - run: docker build -t $DOCKER_USER/server:$CIRCLE_BRANCH .
+      - run: docker push $DOCKER_USER/server:$CIRCLE_BRANCH
 workflows:
     build-and-test:
       jobs:
         - build-and-test-client
         - build-and-test-server
+    docker-build-and-publish:
+      jobs:
+        - build-docker-client
+        - build-docker-server
