@@ -43,11 +43,15 @@ jobs:
       - run: docker build -t $DOCKER_USER/server:$CIRCLE_BRANCH .
       - run: docker push $DOCKER_USER/server:$CIRCLE_BRANCH
 workflows:
-    build-and-test:
+    build-test-deploy:
       jobs:
         - build-and-test-client
         - build-and-test-server
-    docker-build-and-publish:
-      jobs:
-        - build-docker-client
-        - build-docker-server
+        - build-docker-client:
+            requires:
+              - build-and-test-client
+              - build-and-test-server
+        - build-docker-server:
+            requires:
+              - build-and-test-client
+              - build-and-test-server
