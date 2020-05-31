@@ -5,10 +5,10 @@ jobs:
   build-and-test-client:
     executor:
       name: node/default
-    working_directory: ~/client
+    working_directory: ~/repo/client
     steps:
       - checkout:
-          path: "~"
+          path: ~/repo
       - node/with-cache:
           steps:
             - run: npm install
@@ -16,10 +16,10 @@ jobs:
   build-and-test-server:
     executor:
       name: node/default
-    working_directory: ~/server
+    working_directory: ~/repo/server
     steps:
       - checkout:
-          path: "~"
+          path: ~/repo
       - node/with-cache:
           steps:
             - run: npm install
