@@ -8,7 +8,7 @@ jobs:
     working_directory: ~/client
     steps:
       - checkout
-      - cd client
+      - run: cd client
       - node/with-cache:
           steps:
             - run: npm install
@@ -19,7 +19,7 @@ jobs:
     working_directory: ~/server
     steps:
       - checkout
-      - cd server
+      - run: cd server
       - node/with-cache:
           steps:
             - run: npm install
