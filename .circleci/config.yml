@@ -7,8 +7,8 @@ jobs:
       name: node/default
     working_directory: ~/client
     steps:
-      - checkout
-      - run: cd client
+      - checkout:
+          path: "~"
       - node/with-cache:
           steps:
             - run: npm install
@@ -18,8 +18,8 @@ jobs:
       name: node/default
     working_directory: ~/server
     steps:
-      - checkout
-      - run: cd server
+      - checkout:
+          path: "~"
       - node/with-cache:
           steps:
             - run: npm install
